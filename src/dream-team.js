@@ -1,6 +1,16 @@
-const CustomError = require("../extensions/custom-error");
-
-module.exports = function createDreamTeam(/* members */) {
-  throw new CustomError('Not implemented');
-  // remove line with error and write your code here
+module.exports = function createDreamTeam(members) {
+  if (typeof members !== 'object' || members === null || !members.length) return false;
+  const names = members.filter((item) => typeof item === 'string');
+  if (!names.length) return false;
+  const secretArr = [];
+  names.forEach((item) => {
+    const name = item.trim();
+    const code = name.charCodeAt(0);
+    if (code >= 97 && code <= 122) {
+      secretArr.push(String.fromCharCode(code - 32));
+    } else if (code >= 65 && code <= 96) {
+      secretArr.push(name[0]);
+    }
+  });
+  return secretArr.sort().join('');
 };
